@@ -87,4 +87,6 @@
 
     <bean id="averageRequestTimeAspect" class="ua.hlibbabii.aopdemo.aspects.AverageRequestTimeAspect"/>
 
+    <bean id="loggingAspect" class="ua.hlibbabii.aopdemo.aspects.LoggingAspect"/>
+
 </beans>
