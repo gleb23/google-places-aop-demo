@@ -14,7 +14,8 @@ import java.lang.String;
 @NamedQueries({
         @NamedQuery(name="getPlaceByName", query = "SELECT p from Place p where p.name LIKE :query"),
 })
-@SQLInsert(sql="INSERT into PLACE (googleId, longitude, latitude, name) values (?, ?, ?, ?) ON DUPLICATE KEY UPDATE")
+@SQLInsert(sql="INSERT into PLACE (googleId, longitude, latitude, name) " +
+        "values (?, ?, ?, ?) ON DUPLICATE KEY UPDATE googleId = googleId")
 public class Place {
 
     @Id

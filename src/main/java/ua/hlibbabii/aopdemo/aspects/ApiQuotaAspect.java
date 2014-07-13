@@ -87,9 +87,8 @@ public class ApiQuotaAspect {
 // find out what are those many loggers
 // not reflection but poincut definition
 // hijack get request
-// do logging
 // add && !set*  && !get
-// within code && call
+// within code & call - write to presentation that spring supports ony withing and execution and find the rest words
 // try to compile that shit
 // razobratsia with props
 // slide: aspectj lang example

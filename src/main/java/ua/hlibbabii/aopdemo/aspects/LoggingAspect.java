@@ -23,6 +23,9 @@ public class LoggingAspect {
     @Pointcut(" execution(* ua.hlibbabii.aopdemo.places.controllers.PlaceController.*(..))")
     public void controllerMethodsPointcut(){}
 
+    @Pointcut(" within(ua.hlibbabii.aopdemo.places.controllers.PlaceController) ")
+    public void withinControllerClassPointcut(){}
+
     @Before("daoMethodsPointcut() && ! gettersSettersPointcut()")
     public void logDao(JoinPoint joinPoint) {
         LoggerFactory.getLogger(joinPoint.getTarget().getClass()).info(
