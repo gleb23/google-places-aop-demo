@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:component-scan base-package="ua.hlibbabii.aopdemo" />
+
+    <aop:aspectj-autoproxy />
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceXmlLocation" value="classpath:/persistence.xml" />
+        <property name="persistenceUnitName" value="placePU" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+        <property name="jpaDialect" ref="jpaDialect" />
+    </bean>
+
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="database" value="MYSQL" />
+        <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
+    </bean>
+
+    <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaDialect" ref="jpaDialect" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/places" />
+        <property name="username" value="root" />
+        <property name="password" value="123" />
+    </bean>
+
+    <bean id="genericDao" abstract="true" class="ua.hlibbabii.aopdemo.places.dao.GenericDao">
+        <property name="clazz" value="ua.hlibbabii.aopdemo.places.persistence.Place"/>
+    </bean>
+
+    <bean id="placeDao" class="ua.hlibbabii.aopdemo.places.dao.PlaceDaoImpl" parent="genericDao"/>
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+
+    <bean id="placesResponseParser" class="ua.hlibbabii.aopdemo.places.services.PlacesResponseParser"/>
+
+    <bean id="googlePlaceLoader" class="ua.hlibbabii.aopdemo.places.services.GooglePlaceLoader">
+        <property name="restTemplate" ref="restTemplate"/>
+        <property name="placesResponseParser" ref="placesResponseParser"/>
+    </bean>
+
+    <bean id="googlePlaceDetailsLoader" class="ua.hlibbabii.aopdemo.places.services.GooglePlaceDetailsLoader"/>
+
+    <bean id="placeService" class="ua.hlibbabii.aopdemo.places.services.PlaceServiceImpl">
+        <property name="placeDao" ref="placeDao"/>
+        <property name="googlePlaceLoader" ref="googlePlaceLoader"/>
+        <property name="googlePlaceDetailsLoader" ref="googlePlaceDetailsLoader"/>
+    </bean>
+
+    <bean id="placeController" class="ua.hlibbabii.aopdemo.places.controllers.PlaceController">
+        <property name="placeService" ref="placeService"/>
+    </bean>
+
+    <bean id="directionsResponseParser" class="ua.hlibbabii.aopdemo.directions.services.DirectionsResponseParser"/>
+
+    <bean id="distanceCalculator" class="ua.hlibbabii.aopdemo.directions.services.DistanceCalculator">
+        <property name="directionsResponseParser" ref="directionsResponseParser"/>
+    </bean>
+
+    <bean id="distanceController" class="ua.hlibbabii.aopdemo.directions.controllers.DistanceController">
+        <property name="placeService" ref="placeService"/>
+        <property name="distanceCalculator" ref="distanceCalculator"/>
+    </bean>
+
+    <bean id="apiQuotaAspect" class="ua.hlibbabii.aopdemo.aspects.ApiQuotaAspect"/>
+
+    <bean id="averageRequestTimeAspect" class="ua.hlibbabii.aopdemo.aspects.AverageRequestTimeAspect"/>
+
+</beans>
