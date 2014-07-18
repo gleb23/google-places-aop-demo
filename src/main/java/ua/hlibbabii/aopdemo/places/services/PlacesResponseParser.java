@@ -53,7 +53,7 @@ public class PlacesResponseParser {
     private void checkStatus(JSONObject jsonResponse) {
         String responseStatus = jsonResponse.getString("status");
         if (!responseStatus.equals("OK")) {
-            throw new RuntimeException(responseStatus);
+            throw new GoogleRequestFailException(responseStatus);
         }
     }
 

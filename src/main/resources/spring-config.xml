@@ -83,10 +83,25 @@
         <property name="distanceCalculator" ref="distanceCalculator"/>
     </bean>
 
+    <!-- Aspects -->
+
     <bean id="apiQuotaAspect" class="ua.hlibbabii.aopdemo.aspects.ApiQuotaAspect"/>
 
     <bean id="averageRequestTimeAspect" class="ua.hlibbabii.aopdemo.aspects.AverageRequestTimeAspect"/>
 
     <bean id="loggingAspect" class="ua.hlibbabii.aopdemo.aspects.LoggingAspect"/>
+
+    <!-- using spring aop interfaces -->
+
+    <bean id="googleRequestFailProcessor" class="ua.hlibbabii.aopdemo.aspects.withinterfaces.RequestFailProcessor"/>
+
+    <bean id="googlePlacesLloaderProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="placesResponseParser"/>
+        <property name="interceptorNames">
+            <list>
+                <value>googleRequestFailProcessor</value>
+            </list>
+        </property>
+    </bean>
 
 </beans>
