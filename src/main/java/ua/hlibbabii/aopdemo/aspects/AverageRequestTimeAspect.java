@@ -31,10 +31,10 @@ public class AverageRequestTimeAspect {
     public void aroundDistanceControllerMethods() {}
 
     @Around("aroundPlaceControllerMethods() || aroundDistanceControllerMethods()")
-    public void trackRequestDuration(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object trackRequestDuration(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
 
-        joinPoint.proceed();
+        Object result = joinPoint.proceed();
 
         long end = System.currentTimeMillis();
         requestsDurationSum.addAndGet(end - start);
@@ -44,6 +44,7 @@ public class AverageRequestTimeAspect {
         if (nRequests.get() > 0) {
             System.out.println("Average request duration:" + requestsDurationSum.get() / nRequests.get());
         }
+        return result;
     }
 
     public PropertiesFilesUtils getPropertiesFilesUtils() {
