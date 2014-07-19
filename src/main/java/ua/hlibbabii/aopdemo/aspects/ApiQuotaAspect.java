@@ -55,7 +55,7 @@ public class ApiQuotaAspect {
     }
 
     @Before(" @annotation(ua.hlibbabii.aopdemo.annotations.ApiKeyUsage) ")
-    public void trackApiKeyUsage(JoinPoint joinPoint) {
+    synchronized public void trackApiKeyUsage(JoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();
         ApiKeyUsage annotation = signature.getMethod().getAnnotation(ApiKeyUsage.class);
         ApiKeyUsage.ApiType apiType = annotation.value();
