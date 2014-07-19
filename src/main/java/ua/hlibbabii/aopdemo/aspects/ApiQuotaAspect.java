@@ -31,16 +31,6 @@ public class ApiQuotaAspect {
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();
         ApiKeyUsage annotation = signature.getMethod().getAnnotation(ApiKeyUsage.class);
         ApiKeyUsage.ApiType apiType = annotation.value();
-
-//        System.out.println(joinPoint.getArgs());
-//        System.out.println(joinPoint.getKind());
-//        System.out.println(joinPoint.getSourceLocation().getFileName());
-//        System.out.println(joinPoint.getSourceLocation().getLine());
-//        System.out.println(joinPoint.getStaticPart());
-//        System.out.println(joinPoint.getTarget());
-//        System.out.println(joinPoint.getThis());
-//        System.out.println(joinPoint.toLongString());
-
         Properties props = propertiesFilesUtils.loadProperties(PROPERTIES_FILE_NAME);
 
         String lastUpdated = props.getProperty("lastUpdated");
@@ -52,18 +42,16 @@ public class ApiQuotaAspect {
         System.out.println(directionsApiRequestsLeft);
 
         lastUpdated = new Date().toString();
+        props.put("lastUpdated", lastUpdated) ;
         if (apiType == ApiKeyUsage.ApiType.PLACES) {
             placesApiRequestsLeft = Integer.toString(Integer.parseInt(placesApiRequestsLeft) - 1);
+            props.put("placesApiRequestsLeft", placesApiRequestsLeft);
         } else if (apiType == ApiKeyUsage.ApiType.DIRECTIONS) {
             directionsApiRequestsLeft = Integer.toString(Integer.parseInt(directionsApiRequestsLeft) - 1);
+            props.put("directionsApiRequestsLeft", directionsApiRequestsLeft);
         } else {
             throw new AssertionError();
         }
-
-        props = new Properties();
-        props.put("lastUpdated", lastUpdated) ;
-        props.put("placesApiRequestsLeft", placesApiRequestsLeft);
-        props.put("directionsApiRequestsLeft", directionsApiRequestsLeft);
 
         propertiesFilesUtils.saveProperties(props, PROPERTIES_FILE_NAME);
     }
@@ -84,7 +72,6 @@ public class ApiQuotaAspect {
     }
 }
 
-// find out what are those many loggers
 // not reflection but poincut definition
 // hijack get request
 // add && !set*  && !get

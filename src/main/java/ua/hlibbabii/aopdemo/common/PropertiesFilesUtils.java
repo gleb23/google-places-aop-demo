@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Properties;
 
 /**
@@ -13,10 +12,10 @@ import java.util.Properties;
 @Component
 public class PropertiesFilesUtils {
     public void saveProperties(Properties props, String fileName) throws IOException, URISyntaxException {
-        URL url = getClass().getClassLoader().getResource(fileName);
-        File file = new File(url.toURI().getPath());
+        String resourcesPath = System.getProperty("resourcesPath");
+        File file = new File(resourcesPath +"api-key.properties");
         OutputStream outputStream = new FileOutputStream(file);
-        props.store(outputStream, "Hi");
+        props.store(outputStream, "api-key quotas");
     }
 
     public Properties loadProperties(String fileName) throws IOException {
