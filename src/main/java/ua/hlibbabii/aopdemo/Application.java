@@ -12,6 +12,8 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource("classpath:spring-config.xml")
 public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication app = new SpringApplication(Application.class);
+        app.setRegisterShutdownHook(true);
+        app.run(args);
     }
 }
