@@ -102,11 +102,7 @@ public class ApiQuotaAspect {
 // hijack get request
 // add && !set*  && !get
 // within code & call - write to presentation that spring supports ony withing and execution and find the rest words
-// try to compile that shit
-// razobratsia with props
 // slide: aspectj lang example
-// slide: versions of aspectj
-// interfaces before after make something work
 // xml config
 // types of veawing
 // example with class+

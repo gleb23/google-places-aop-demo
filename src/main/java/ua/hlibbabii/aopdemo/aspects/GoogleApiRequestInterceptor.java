@@ -13,9 +13,9 @@ import java.lang.reflect.Method;
  * Created by hlib on 7/19/14.
  */
 
-public class RequestProcessor implements MethodBeforeAdvice, AfterReturningAdvice, ThrowsAdvice {
+public class GoogleApiRequestInterceptor implements MethodBeforeAdvice, AfterReturningAdvice, ThrowsAdvice {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RequestProcessor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoogleApiRequestInterceptor.class);
 
     public void  afterThrowing(GoogleRequestFailException ex) throws Throwable {
         System.out.println(ex.getStatus());

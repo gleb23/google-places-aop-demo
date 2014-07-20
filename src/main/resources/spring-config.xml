@@ -93,13 +93,13 @@
 
     <!-- using spring aop interfaces -->
 
-    <bean id="googleRequestFailProcessor" class="ua.hlibbabii.aopdemo.aspects.RequestProcessor"/>
+    <bean id="googleApiRequestInterceptor" class="ua.hlibbabii.aopdemo.aspects.GoogleApiRequestInterceptor"/>
 
     <bean id="googlePlacesLoaderProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
         <property name="target" ref="googlePlaceLoader"/>
         <property name="interceptorNames">
             <list>
-                <value>googleRequestFailProcessor</value>
+                <value>googleApiRequestInterceptor</value>
             </list>
         </property>
     </bean>
