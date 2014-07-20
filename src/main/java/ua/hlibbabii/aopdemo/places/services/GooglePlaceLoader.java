@@ -22,7 +22,7 @@ public class GooglePlaceLoader {
 
     private PlacesResponseParser placesResponseParser;
 
-    public String getRequestString(String query) {
+    private String getRequestString(String query) {
         URIBuilder uriBuilder = new URIBuilder()
                 .setScheme("https")
                 .setHost("maps.googleapis.com")

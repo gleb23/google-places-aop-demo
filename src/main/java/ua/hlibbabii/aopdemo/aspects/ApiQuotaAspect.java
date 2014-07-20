@@ -106,6 +106,7 @@ public class ApiQuotaAspect {
 // razobratsia with props
 // slide: aspectj lang example
 // slide: versions of aspectj
-// interfaces before after
+// interfaces before after make something work
 // xml config
 // types of veawing
+// example with class+

@@ -1,7 +1,5 @@
 package ua.hlibbabii.aopdemo.places.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import ua.hlibbabii.aopdemo.places.persistence.Place;
 import ua.hlibbabii.aopdemo.places.services.PlaceService;
@@ -17,9 +15,6 @@ public class PlaceController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Place> getPlaces() {
         List<Place> allPlaces = placeService.getAll();
-
-        LoggerFactory.getLogger(PlaceController.class).debug(allPlaces.toString());
-
         return allPlaces;
     }
 
