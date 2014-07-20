@@ -85,11 +85,11 @@
 
     <!-- Aspects -->
 
-    <!--<bean id="apiQuotaAspect" class="ua.hlibbabii.aopdemo.aspects.ApiQuotaAspect"/>-->
+    <bean id="apiQuotaAspect" class="ua.hlibbabii.aopdemo.aspects.ApiQuotaAspect"/>
 
-    <!--<bean id="averageRequestTimeAspect" class="ua.hlibbabii.aopdemo.aspects.AverageRequestTimeAspect"/>-->
+    <bean id="averageRequestTimeAspect" class="ua.hlibbabii.aopdemo.aspects.AverageRequestTimeAspect"/>
 
-    <!--<bean id="loggingAspect" class="ua.hlibbabii.aopdemo.aspects.LoggingAspect"/>-->
+    <bean id="loggingAspect" class="ua.hlibbabii.aopdemo.aspects.LoggingAspect"/>
 
     <!-- using spring aop interfaces -->
 
@@ -108,9 +108,26 @@
         <property name="target" ref="googlePlaceDetailsLoader"/>
         <property name="interceptorNames">
             <list>
-                <value>googleRequestFailProcessor</value>
+                <value>googleApiRequestInterceptor</value>
             </list>
         </property>
     </bean>
+
+    <!-- spring aop xml configuration -->
+    <bean id="averageRequestTimeAspect2" class="ua.hlibbabii.aopdemo.aspects.AverageRequestTimeAspect2"/>
+
+    <aop:config>
+        <aop:aspect id="averageRequestTimeAspect2aspect" ref="averageRequestTimeAspect2">
+            <aop:pointcut id="placeAndDistanceControllerMethods"
+                          expression="
+                          execution(public * ua.hlibbabii.aopdemo.places.controllers.PlaceController.*(..) ) and
+                          execution(public * ua.hlibbabii.aopdemo.directions.controllers.DistanceController.*(..) )"
+            />
+
+            <aop:around method="trackRequestDuration" pointcut-ref="placeAndDistanceControllerMethods"/>
+        </aop:aspect>
+
+
+    </aop:config>
 
 </beans>
