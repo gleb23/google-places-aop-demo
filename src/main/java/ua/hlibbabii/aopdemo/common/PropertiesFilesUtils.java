@@ -13,7 +13,7 @@ import java.util.Properties;
 public class PropertiesFilesUtils {
     public void saveProperties(Properties props, String fileName) throws IOException, URISyntaxException {
         String resourcesPath = System.getProperty("resourcesPath");
-        File file = new File(resourcesPath +"api-key.properties");
+        File file = new File(resourcesPath + fileName);
         OutputStream outputStream = new FileOutputStream(file);
         props.store(outputStream, "api-key quotas");
     }

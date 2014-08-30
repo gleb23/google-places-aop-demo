@@ -45,6 +45,11 @@ public abstract class GenericDao<T> {
         return c;
     }
 
+    abstract public T getByName(String query);
+
+
+
+
     public boolean delete(Long id) {
 
         em.remove(em.getReference(clazz, id));
@@ -60,6 +65,4 @@ public abstract class GenericDao<T> {
 
         return em.merge(obj);
     }
-
-    abstract public T getByName(String query);
 }

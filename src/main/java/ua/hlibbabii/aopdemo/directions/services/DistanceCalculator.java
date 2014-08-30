@@ -30,7 +30,7 @@ public class DistanceCalculator {
                 .setParameter("destination", getCommaSeparatedCoordinates(to))
                 .setParameter("mode", "transit")
                 .setParameter("departure_time", Long.toString(System.currentTimeMillis()))
-                .setParameter("key", ApiKey.API_KEY);
+                .setParameter("key", ApiKey.INSTANCE.getValue());
 
         URI uri = null;
         try {

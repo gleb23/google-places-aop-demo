@@ -17,37 +17,6 @@ public class PlaceDaoImpl extends GenericDao<Place> implements PlaceDao {
     @PersistenceContext
     private EntityManager em;
 
-//    public List<Place> getAll() {
-//
-//        String queryString = "SELECT c FROM " + Place.class.getSimpleName() + " c";
-//        TypedQuery<Place> query =
-//                em.createQuery(queryString, Place.class);
-//        List<Place> resultList = query.getResultList();
-//
-//        return resultList;
-//    }
-//
-//    public Place getById(Long id) {
-//        Place c = (Place) em.find(Place.class, id);
-//        return c;
-//    }
-//
-//    public boolean delete(Long id) {
-//        //try {
-//            em.remove(em.getReference(Place.class, id));
-//        //} catch (EntityNotFoundException ex) {return false;}
-//        return true;
-//    }
-//
-//    public Place insert(Place obj) {
-//        em.persist(obj);
-//        return obj;
-//    }
-//
-//    public Place update(Place obj) {
-//        return em.merge(obj);
-//    }
-
     @Override
     public Place getByName(String query) {
         TypedQuery<Place> namedQuery = em.createNamedQuery("getPlaceByName", Place.class);

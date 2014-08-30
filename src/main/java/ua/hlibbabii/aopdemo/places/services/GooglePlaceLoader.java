@@ -28,7 +28,7 @@ public class GooglePlaceLoader {
                 .setHost("maps.googleapis.com")
                 .setPath("/maps/api/place/textsearch/json")
                         // params
-                .setParameter("key", ApiKey.API_KEY)
+                .setParameter("key", ApiKey.INSTANCE.getValue())
                 .setParameter("query", query + " Kiev");
 
         URI uri = null;

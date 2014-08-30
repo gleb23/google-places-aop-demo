@@ -17,11 +17,6 @@ public class PlaceServiceImpl implements PlaceService {
 
     private GooglePlaceDetailsLoader googlePlaceDetailsLoader;
 
-    @Transactional
-    @Override
-    public boolean delete(Long id) {
-        return placeDao.delete(id);
-    }
 
     @Override
     public List<Place> getAll() {
@@ -31,20 +26,6 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     public Place getById(Long id) {
         return placeDao.getById(id);
-    }
-
-    @Transactional
-    @Override
-    public Place insert(Place Place) {
-        placeDao.insert(Place);
-        return Place;
-    }
-
-    @Transactional
-    @Override
-    public Place update(Place Place) {
-        placeDao.update(Place);
-        return Place;
     }
 
     @Transactional
@@ -67,6 +48,28 @@ public class PlaceServiceImpl implements PlaceService {
         } else {
             return null;
         }
+    }
+
+
+
+    @Transactional
+    @Override
+    public Place insert(Place Place) {
+        placeDao.insert(Place);
+        return Place;
+    }
+
+    @Transactional
+    @Override
+    public Place update(Place Place) {
+        placeDao.update(Place);
+        return Place;
+    }
+
+    @Transactional
+    @Override
+    public boolean delete(Long id) {
+        return placeDao.delete(id);
     }
 
 

@@ -3,7 +3,6 @@ package ua.hlibbabii.aopdemo.aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class ApiQuotaAspect {
     private static String DATE_TEMPLATE = "EEE, d MMM yyyy HH:mm:ss Z";
     private final int PLACES_API_QUOTA = 1000;
     private final int DIRECTIONS_API_QUOTA = 1000;
-    private final String PROPERTIES_FILE_NAME = "api-key.properties";
+    private final String PROPERTIES_FILE_NAME = "api-key-quota.properties";
 
     private DateTime lastUpdated;
     private int placesApiRequestsLeft;
@@ -54,11 +53,9 @@ public class ApiQuotaAspect {
         propertiesFilesUtils.saveProperties(props, PROPERTIES_FILE_NAME);
     }
 
-    @Before(" @annotation(ua.hlibbabii.aopdemo.annotations.ApiKeyUsage) ")
-    synchronized public void trackApiKeyUsage(JoinPoint joinPoint) {
-        MethodSignature signature = (MethodSignature)joinPoint.getSignature();
-        ApiKeyUsage annotation = signature.getMethod().getAnnotation(ApiKeyUsage.class);
-        ApiKeyUsage.ApiType apiType = annotation.value();
+    @Before(" @annotation(apiKeyUsage) ")
+    synchronized public void trackApiKeyUsage(JoinPoint joinPoint, ApiKeyUsage apiKeyUsage) {
+        ApiKeyUsage.ApiType apiType = apiKeyUsage.value();
 
         System.out.println(lastUpdated);
         System.out.println(placesApiRequestsLeft);
@@ -81,6 +78,33 @@ public class ApiQuotaAspect {
         }
     }
 
+//    @Before(" @annotation(ua.hlibbabii.aopdemo.annotations.ApiKeyUsage) ")
+//    synchronized public void trackApiKeyUsage(JoinPoint joinPoint) {
+//        MethodSignature signature = (MethodSignature)joinPoint.getSignature();
+//        ApiKeyUsage annotation = signature.getMethod().getAnnotation(ApiKeyUsage.class);
+//        ApiKeyUsage.ApiType apiType = annotation.value();
+//
+//        System.out.println(lastUpdated);
+//        System.out.println(placesApiRequestsLeft);
+//        System.out.println(directionsApiRequestsLeft);
+//
+//        DateTime currentDateTime = new DateTime();
+//        if (lastUpdated.getYear() != currentDateTime.getYear() ||
+//                lastUpdated.getDayOfYear() != currentDateTime.getDayOfYear()) {
+//            placesApiRequestsLeft = PLACES_API_QUOTA;
+//            directionsApiRequestsLeft = DIRECTIONS_API_QUOTA;
+//        }
+//        lastUpdated = currentDateTime;
+//
+//        if (apiType == ApiKeyUsage.ApiType.PLACES) {
+//            --placesApiRequestsLeft;
+//        } else if (apiType == ApiKeyUsage.ApiType.DIRECTIONS) {
+//            --directionsApiRequestsLeft;
+//        } else {
+//            throw new AssertionError();
+//        }
+//    }
+
     @Before(" execution(public String *.getRequestString())")
     public void logRequest(JoinPoint joinPoint) {
         System.out.println("hijacked : " + joinPoint.getSignature().toLongString());
@@ -102,7 +126,5 @@ public class ApiQuotaAspect {
 // hijack get request
 // add && !set*  && !get
 // within code & call - write to presentation that spring supports ony withing and execution and find the rest words
-// slide: aspectj lang example
-// xml config
 // types of veawing
 // example with class+
