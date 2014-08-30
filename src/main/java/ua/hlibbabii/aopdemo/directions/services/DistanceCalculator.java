@@ -43,7 +43,7 @@ public class DistanceCalculator {
     }
 
     @ApiKeyUsage(ApiKeyUsage.ApiType.DIRECTIONS)
-    public int calculateTimeToGet(Place from, Place to) {
+    public int calculateTimeToGet(Place from, Place to) throws NoRoutesException {
         String response = new RestTemplate().getForObject(getRequest(from, to), String.class);
         return directionsResponseParser.getTimeInMinutes(response);
     }
