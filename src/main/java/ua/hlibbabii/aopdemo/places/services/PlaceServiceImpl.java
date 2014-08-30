@@ -34,7 +34,9 @@ public class PlaceServiceImpl implements PlaceService {
         Place place = placeDao.getByName(query);
         if (place == null) {
             place = googlePlaceLoader.loadFromGoogle(query);
-            placeDao.insert(place);
+            if (place != null) {
+                placeDao.insert(place);
+            }
         }
         return place;
     }

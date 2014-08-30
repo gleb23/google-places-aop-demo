@@ -8,7 +8,6 @@ import java.io.IOException;
 /**
  * Created by hlib on 7/7/14.
  */
-@Component
 public enum ApiKey {
     INSTANCE;
     private static final String API_KEY_PROPERTIES_FILE_NAME = "api-key.properties";
@@ -24,7 +23,7 @@ public enum ApiKey {
 
     ApiKey() {
         try {
-            value = propertiesFilesUtils.loadProperties(API_KEY_PROPERTIES_FILE_NAME)
+            value = new PropertiesFilesUtils().loadProperties(API_KEY_PROPERTIES_FILE_NAME)
                 .getProperty("apiKey");
         } catch (IOException e) {
             new RuntimeException("Failed to get API key");

@@ -26,7 +26,7 @@ public class PlacesResponseParser {
             JSONObject jsonPlace = jsonPlaces.getJSONObject(0);
             return parsePlace(jsonPlace);
         } else {
-            throw new RuntimeException("Server returned no places");
+            return null;
         }
     }
 
@@ -52,7 +52,9 @@ public class PlacesResponseParser {
 
     private void checkStatus(JSONObject jsonResponse) {
         String responseStatus = jsonResponse.getString("status");
-        if (!responseStatus.equals("OK")) {
+        if (!responseStatus.equals("ZERO_RESULTS")) {
+
+        } else if (!responseStatus.equals("OK") && (!responseStatus.equals("ZERO_RESULTS"))) {
             throw new GoogleRequestFailException(responseStatus);
         }
     }

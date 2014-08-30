@@ -17,7 +17,7 @@ public class GooglePlaceDetailsLoader {
                 .setHost("maps.googleapis.com")
                 .setPath("/maps/api/place/details/json")
                         // params
-                .setParameter("key", ApiKey.API_KEY)
+                .setParameter("key", ApiKey.INSTANCE.getValue())
                 .setParameter("placeid", googleId);
 
         URI uri = null;
