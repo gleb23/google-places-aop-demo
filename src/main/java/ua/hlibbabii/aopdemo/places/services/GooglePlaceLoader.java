@@ -16,7 +16,6 @@ public class GooglePlaceLoader {
 
     public final String KIEV_LONGITUDE = "30.5233";
     public final String KIEV_LATITUDE = "50.4500";
-    public final String COMMA_SEPARATED_KIEV_LOCATION = KIEV_LONGITUDE + "," +KIEV_LATITUDE;
 
     private RestTemplate restTemplate;
 

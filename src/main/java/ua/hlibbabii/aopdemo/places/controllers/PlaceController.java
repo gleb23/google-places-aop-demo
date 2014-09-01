@@ -36,7 +36,7 @@ public class PlaceController {
     }
 
     @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
-    public String createPlaceFromGoogle(@PathVariable Long id) {
+    public String getPlaceDetailsFromGoogle(@PathVariable Long id) {
         String details =  placeService.getDetails(id);
         if (details != null) {
             return details;

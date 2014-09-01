@@ -2,8 +2,10 @@ package ua.hlibbabii.aopdemo.places.services;
 
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.web.client.RestTemplate;
+import ua.hlibbabii.aopdemo.annotations.ApiKeyUsage;
 import ua.hlibbabii.aopdemo.common.ApiKey;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -30,6 +32,7 @@ public class GooglePlaceDetailsLoader {
         return request;
     }
 
+    @ApiKeyUsage(ApiKeyUsage.ApiType.PLACES)
     public String getPlaceDetails(String googleId) {
         return new RestTemplate().getForObject(getRequestString(googleId), String.class);
     }

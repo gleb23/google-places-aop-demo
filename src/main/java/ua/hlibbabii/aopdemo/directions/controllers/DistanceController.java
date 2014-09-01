@@ -36,9 +36,6 @@ public class DistanceController {
         return result;
     }
 
-
-
-
     public DistanceCalculator getDistanceCalculator() {
         return distanceCalculator;
     }

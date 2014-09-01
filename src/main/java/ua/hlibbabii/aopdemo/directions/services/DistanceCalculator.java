@@ -20,7 +20,7 @@ public class DistanceCalculator {
         return place.getLongitude() + "," +place.getLatitude();
     }
 
-    private String getRequest(Place from, Place to) {
+    private String getRequestString(Place from, Place to) {
         URIBuilder uriBuilder = new URIBuilder()
                 .setScheme("https")
                 .setHost("maps.googleapis.com")
@@ -44,7 +44,7 @@ public class DistanceCalculator {
 
     @ApiKeyUsage(ApiKeyUsage.ApiType.DIRECTIONS)
     public int calculateTimeToGet(Place from, Place to) throws NoRoutesException {
-        String response = new RestTemplate().getForObject(getRequest(from, to), String.class);
+        String response = new RestTemplate().getForObject(getRequestString(from, to), String.class);
         return directionsResponseParser.getTimeInMinutes(response);
     }
 
